@@ -1,0 +1,186 @@
+[gd_scene load_steps=16 format=3 uid="uid://0eumvrb653wr"]
+
+[ext_resource type="Script" uid="uid://8nsvc64881fb" path="res://CharacterBody3d.cs" id="1_5yg15"]
+[ext_resource type="Script" uid="uid://cm2f0qpwwymft" path="res://script/Camera3d.cs" id="2_iqcf1"]
+[ext_resource type="PackedScene" uid="uid://5d5nnvnuveq7" path="res://canvas_layer.tscn" id="3_h0d7r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5yg15"]
+height = 1.0119
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_acjdt"]
+albedo_color = Color(0.413591, 0.495741, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2mnkm"]
+material = SubResource("StandardMaterial3D_acjdt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h0d7r"]
+albedo_color = Color(0, 0.556569, 0.905607, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jtblh"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jtblh"]
+material = SubResource("StandardMaterial3D_jtblh")
+
+[sub_resource type="Animation" id="Animation_5yg15"]
+resource_name = "Crouch"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.17607, -0.25, 0, 0.25, 0, 0.17607, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.368976, -0.25, 0, 0.25, 0, -0.418633, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_iqcf1"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.17607, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.368976, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_h0d7r"]
+resource_name = "Uncrouch"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.17607, -0.25, 0, 0.25, 0, 0.17607, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.0953568, -0.25, 0, 0.25, 0, 0.368976, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jtblh"]
+_data = {
+&"Crouch": SubResource("Animation_5yg15"),
+&"RESET": SubResource("Animation_iqcf1"),
+&"Uncrouch": SubResource("Animation_h0d7r")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0d7r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtblh"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0153, 0)
+script = ExtResource("1_5yg15")
+decelerationGround = 50.0
+decelerationAir = 50.0
+
+[node name="CrouchCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.493751, 0)
+shape = SubResource("CapsuleShape3D_5yg15")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_2mnkm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.18021e-08, -0.27, 0, 0.27, -1.18021e-08, 0, 0, 0, 0.27, 0.449513, 0.360084, 0)
+material_override = SubResource("StandardMaterial3D_h0d7r")
+mesh = SubResource("CapsuleMesh_jtblh")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.17607, 0.368976, 0)
+current = true
+script = ExtResource("2_iqcf1")
+LeanAmount = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jtblh")
+}
+
+[node name="PeekDetectorLeft" type="Area3D" parent="."]
+transform = Transform3D(0.227064, 0, 0, 0, 0.0639935, 0, 0, 0, 0.375716, 0.418009, -0.493934, 0.342725)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PeekDetectorLeft"]
+shape = SubResource("BoxShape3D_h0d7r")
+
+[node name="PeekDetectorRight" type="Area3D" parent="."]
+transform = Transform3D(0.227064, 0, 0, 0, 0.0639935, 0, 0, 0, 0.375716, 0.418009, -0.493934, -0.337307)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PeekDetectorRight"]
+shape = SubResource("BoxShape3D_jtblh")
+
+[node name="CanvasLayer" parent="." instance=ExtResource("3_h0d7r")]
