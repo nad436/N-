@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6a5p8yd1k30o"]
+
+[ext_resource type="Script" uid="uid://72lw6a6sdkcl" path="res://Roma.cs" id="1_ahaee"]
+[ext_resource type="PackedScene" uid="uid://bl0iqoaklc617" path="res://control.tscn" id="2_fdhp4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gaig4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahaee"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fdhp4"]
+material = SubResource("StandardMaterial3D_ahaee")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gaig4"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ahaee"]
+material = SubResource("StandardMaterial3D_gaig4")
+
+[node name="Roma" type="CharacterBody3D"]
+script = ExtResource("1_ahaee")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_gaig4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_fdhp4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.73206e-16, 1.31134e-08, 0.3, 0.3, -1.31134e-08, 0, 1.31134e-08, 0.3, -1.31134e-08, 0, 0.282822, 0.437043)
+mesh = SubResource("CapsuleMesh_ahaee")
+
+[node name="Control" parent="." instance=ExtResource("2_fdhp4")]
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(-1, 1.59872e-14, -8.74228e-08, -2.91435e-08, 0.942799, 0.333363, 8.24221e-08, 0.333363, -0.942799, 0, 1.40495, -3.31933)
+
+[node name="wallCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0136021, -0.0117795)
+
+[node name="stillOnWallCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.496902, -0.0198795)

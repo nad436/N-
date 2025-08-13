@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bflu4rumoc86n"]
+[gd_scene load_steps=9 format=3 uid="uid://bflu4rumoc86n"]
 
-[ext_resource type="PackedScene" uid="uid://0eumvrb653wr" path="res://script/player.tscn" id="1_dpm3d"]
+[ext_resource type="Script" uid="uid://x31fpjo1fij5" path="res://script/World.cs" id="1_bxfap"]
 [ext_resource type="PackedScene" uid="uid://bfw1wqduabv8b" path="res://s.tscn" id="2_5o72p"]
+[ext_resource type="PackedScene" uid="uid://c6a5p8yd1k30o" path="res://Roma.tscn" id="2_dny1k"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dpm3d"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -22,6 +23,7 @@ glow_enabled = true
 
 [node name="World" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078624, -2.30226, -0.231617)
+script = ExtResource("1_bxfap")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dny1k")
@@ -97,5 +99,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 211.219, 2.42818, 11.8917)
 [node name="StaticBody3D4" parent="." instance=ExtResource("2_5o72p")]
 transform = Transform3D(1.00117, 0, 0, 0, 1.00117, 0, 0, 0, 1.00117, 337.693, 2.56306, 11.8917)
 
-[node name="Player" parent="." instance=ExtResource("1_dpm3d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.10182, 0)
+[node name="Roma" parent="." instance=ExtResource("2_dny1k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95019, 2.06423, 3.09533)
