@@ -37,15 +37,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0358706, 0)
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.876896, 6.02808, 0.289703)
-size = Vector3(39.2594, 7.48749, 26.7524)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.11184, 15.9919, -0.697728)
+size = Vector3(86.8008, 27.4151, 54.4558)
 material = ExtResource("3_f7g2b")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.171127, 2.01613, -0.00614166)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.122304, 3.36803, -0.222126)
 operation = 2
-size = Vector3(36.5113, 7.94531, 22.7189)
+size = Vector3(82.3994, 31.523, 48.2506)
 material = ExtResource("3_f7g2b")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1678, -1.91261, -1.91714)
+operation = 2
+size = Vector3(5.62085, 1, 4.25488)
+material = ExtResource("4_4ptq8")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D/CSGBox3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 42.5151, -2.45926, 0)
+operation = 2
+radius = 9.87842
+height = 9.16028
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.30645, 3.91802, 0)
@@ -58,3 +70,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.94963, 9.05351, 3)
 radius = 2.54102
 height = 10.3433
 material = ExtResource("4_4ptq8")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.8379, 6.60668, -0.291836)
+size = Vector3(54.7759, 5.19629, 20.7195)
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.4043, 8.27729, 4.73186)
+polygon = PackedVector2Array(-9.53754, -4.57259, 0, 1, 1, 1, 1.44667, -4.84644)
+depth = 11.66
