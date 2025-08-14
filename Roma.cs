@@ -39,6 +39,11 @@ public partial class Roma : CharacterBody3D
     [Export] float climbingSpeed { get; set; } = 4f;
     RayCast3D wallCheck;
     RayCast3D stillOnWallCheck;
+    //Double jump
+    private bool doubleJumpChech = false;
+    //Aim
+    private float minPitch = -30f;
+    private float maxPitch = 60f;
 
     public override void _Ready()
     {
@@ -56,7 +61,7 @@ public partial class Roma : CharacterBody3D
 
     public override void _Process(double delta)
     {
-        
+
         /*float currentSpeed = new Vector3(Velocity.X, 0, Velocity.Z).Length();
         speedLabel.Text = $"Speed: {Mathf.Round(currentSpeed)}";*/
 
@@ -68,7 +73,7 @@ public partial class Roma : CharacterBody3D
         {
             yaw -= lookX * gamepadCameraSensitivity * (float)delta;
             pitch -= lookY * gamepadCameraSensitivity * (float)delta;
-            pitch = Mathf.Clamp(pitch, Mathf.DegToRad(-30f), Mathf.DegToRad(60f));
+            pitch = Mathf.Clamp(pitch, Mathf.DegToRad(minPitch), Mathf.DegToRad(maxPitch));
 
             Rotation = new Vector3(0, yaw, 0);
             Node3D camera = GetNode<Node3D>("CameraPivot");
@@ -88,15 +93,15 @@ public partial class Roma : CharacterBody3D
                 mesh.Rotation = r;
             }
         }
-            else if (moveDir != Vector3.Zero && isClimbing)
-            {
+        else if (moveDir != Vector3.Zero && isClimbing)
+        {
             if (mesh != null)
             {
                 var r = mesh.Rotation;
                 r.Y = -(Mathf.Atan2(wallCheck.GetCollisionNormal().Z, wallCheck.GetCollisionNormal().X) - Mathf.Pi / 2);
                 mesh.Rotation = r;
             }
-            }
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -115,9 +120,9 @@ public partial class Roma : CharacterBody3D
         moveDir = (right * inputDir.X + forward * inputDir.Z).Normalized();
 
         vel = Velocity;
-
         // Handle climbing
         Climbing();
+
 
         // Dash
         if (!isDashing && Input.IsActionJustPressed("dash") && moveDir != Vector3.Zero)
@@ -133,10 +138,7 @@ public partial class Roma : CharacterBody3D
             dashTimer -= (float)delta;
             if (dashTimer <= 0) isDashing = false;
         }
-        else if (isClimbing)
-        {
-            // Velocity handled in Climbing()
-        }
+
         else
         {
             // Horizontal movement
@@ -148,19 +150,42 @@ public partial class Roma : CharacterBody3D
             vel.X = horizontalVelocity.X;
             vel.Z = horizontalVelocity.Z;
 
+
+
+            // Jump
+            if (IsOnFloor())
+            {
+
+                doubleJumpChech = true;
+                if (Input.IsActionJustPressed("jump"))
+                {
+                    vel.Y = jumpImpulse;
+                    dullGravity = 20;
+                }
+
+            }
+            if (Input.IsActionJustReleased("jump"))
+            {
+                vel.Y *= 0.5f;
+            }
+            else if (isClimbing)
+            {
+                doubleJumpChech = true;
+            }
+            else
+            {
+                if (Input.IsActionJustPressed("jump") && doubleJumpChech)
+                {
+                    vel.Y = jumpImpulse;
+                    doubleJumpChech = false;
+                }
+            }
+
             // Gravity
             if (!IsOnFloor()) vel.Y -= dullGravity * (float)delta;
             else if (vel.Y < 0) vel.Y = 0;
-
-            // Jump
-            if (IsOnFloor() && Input.IsActionPressed("jump"))
-            {
-                vel.Y = jumpImpulse;
-                dullGravity = 20;
-            }
-            if (Input.IsActionJustReleased("jump"))
-                dullGravity = 40;
         }
+
 
         Velocity = vel;
         MoveAndSlide();
@@ -172,7 +197,7 @@ public partial class Roma : CharacterBody3D
         {
             yaw -= motion.Relative.X / 1000f * mouseSensitivity;
             pitch -= motion.Relative.Y / 1000f * mouseSensitivity;
-            pitch = Mathf.Clamp(pitch, Mathf.DegToRad(-30f), Mathf.DegToRad(10f));
+            pitch = Mathf.Clamp(pitch, Mathf.DegToRad(minPitch), Mathf.DegToRad(maxPitch));
 
             Rotation = new Vector3(0, yaw, 0);
             Node3D camera = GetNode<Node3D>("CameraPivot");
@@ -181,12 +206,12 @@ public partial class Roma : CharacterBody3D
     }
 
     private void Climbing()
-{
-    if (wallCheck == null || stillOnWallCheck == null)
-        return; // Safety check: exit if RayCasts are missing
-
-    if (stillOnWallCheck.IsColliding())
     {
+        if (wallCheck == null || stillOnWallCheck == null)
+            return; // Safety check: exit if RayCasts are missing
+
+        if (stillOnWallCheck.IsColliding())
+        {
             if (wallCheck.IsColliding())
             {
                 isClimbing = true;
@@ -196,30 +221,50 @@ public partial class Roma : CharacterBody3D
                 vel.Y = climbingJump;
                 isClimbing = false;
 
+            }
+        }
+        else
+        {
+            isClimbing = false;
+        }
+
+        if (isClimbing)
+        {
+            dullGravity = 0;
+            Speed = climbingSpeed;
+
+            var rot = -(Mathf.Atan2(wallCheck.GetCollisionNormal().Z, wallCheck.GetCollisionNormal().X) - Mathf.Pi / 2);
+            var fInput = Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_back");
+            var hInput = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+
+            Vector3 wallMoveDir = new Vector3(hInput, fInput, 0).Rotated(Vector3.Up, rot);
+            vel = wallMoveDir * climbingSpeed;
+        }
+        else
+        {
+            Speed = runSpeed;
+            dullGravity = Gravity;
         }
     }
-    else
+    public void SetMouseSensitivity(float newSensitivity)
     {
-        isClimbing = false;
+        mouseSensitivity = newSensitivity;
     }
 
-    if (isClimbing)
+     public void SetAimMod(bool aiming)
     {
-        dullGravity = 0;
-        Speed = climbingSpeed;
-
-        var rot = -(Mathf.Atan2(wallCheck.GetCollisionNormal().Z, wallCheck.GetCollisionNormal().X) - Mathf.Pi / 2);
-        var fInput = Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_back");
-        var hInput = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-
-        Vector3 wallMoveDir = new Vector3(hInput, fInput, 0).Rotated(Vector3.Up, rot);
-        vel = wallMoveDir * climbingSpeed;
+        if (aiming)
+        {
+            minPitch = -20f;
+            maxPitch = 5f;
+        }
+        else
+        {
+            minPitch = -30f;
+            maxPitch = 10f;
+        }
     }
-    else
-    {
-        Speed = runSpeed;
-        dullGravity = Gravity;
-    }
-}
+   
+
 
 }

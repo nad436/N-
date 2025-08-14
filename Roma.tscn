@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6a5p8yd1k30o"]
+[gd_scene load_steps=9 format=3 uid="uid://c6a5p8yd1k30o"]
 
 [ext_resource type="Script" uid="uid://72lw6a6sdkcl" path="res://Roma.cs" id="1_ahaee"]
 [ext_resource type="PackedScene" uid="uid://bl0iqoaklc617" path="res://control.tscn" id="2_fdhp4"]
+[ext_resource type="Script" uid="uid://c8asq1mc3x8ur" path="res://ThirdPersonShooterController.cs" id="3_pefnl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gaig4"]
 
@@ -35,10 +36,22 @@ mesh = SubResource("CapsuleMesh_ahaee")
 [node name="CameraPivot" type="Node3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+process_priority = 40
 transform = Transform3D(-1, 1.59872e-14, -8.74228e-08, -2.91435e-08, 0.942799, 0.333363, 8.24221e-08, 0.333363, -0.942799, 0, 1.40495, -3.31933)
+
+[node name="AimCamera3D" type="Camera3D" parent="CameraPivot"]
+process_priority = 60
+transform = Transform3D(-0.884402, 0.0661253, -0.462018, -1.48382e-08, 0.989913, 0.141679, 0.466726, 0.125301, -0.875481, -2.75537, 0.936057, -1.96641)
+fov = 52.7
 
 [node name="wallCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0136021, -0.0117795)
 
 [node name="stillOnWallCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.496902, -0.0198795)
+
+[node name="ThirdPersonShooterController" type="Node" parent="." node_paths=PackedStringArray("aCamera", "bCamera", "player")]
+script = ExtResource("3_pefnl")
+aCamera = NodePath("../CameraPivot/AimCamera3D")
+bCamera = NodePath("../CameraPivot/Camera3D")
+player = NodePath("..")
