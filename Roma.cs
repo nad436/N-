@@ -44,6 +44,7 @@ public partial class Roma : CharacterBody3D
     //Aim
     private float minPitch = -30f;
     private float maxPitch = 60f;
+    public bool IsAiming { get; private set; } = false;
 
     public override void _Ready()
     {
@@ -153,32 +154,26 @@ public partial class Roma : CharacterBody3D
 
 
             // Jump
-            if (IsOnFloor())
+            if (IsOnFloor() || isClimbing)
             {
-
                 doubleJumpChech = true;
-                if (Input.IsActionJustPressed("jump"))
+            }
+            if (Input.IsActionJustPressed("jump"))
+            {
+                if (IsOnFloor())
                 {
                     vel.Y = jumpImpulse;
                     dullGravity = 20;
                 }
-
-            }
-            if (Input.IsActionJustReleased("jump"))
-            {
-                vel.Y *= 0.5f;
-            }
-            else if (isClimbing)
-            {
-                doubleJumpChech = true;
-            }
-            else
-            {
-                if (Input.IsActionJustPressed("jump") && doubleJumpChech)
+                else if (Input.IsActionJustPressed("jump") && doubleJumpChech)
                 {
                     vel.Y = jumpImpulse;
                     doubleJumpChech = false;
                 }
+                }
+            if (Input.IsActionJustReleased("jump"))
+            {
+                vel.Y *= 0.5f;
             }
 
             // Gravity
@@ -253,10 +248,11 @@ public partial class Roma : CharacterBody3D
 
      public void SetAimMod(bool aiming)
     {
+        IsAiming = aiming;
         if (aiming)
         {
-            minPitch = -20f;
-            maxPitch = 5f;
+            minPitch = -30f;
+            maxPitch = 10f;
         }
         else
         {

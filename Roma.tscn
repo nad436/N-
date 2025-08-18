@@ -1,13 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6a5p8yd1k30o"]
+[gd_scene load_steps=19 format=3 uid="uid://c6a5p8yd1k30o"]
 
 [ext_resource type="Script" uid="uid://72lw6a6sdkcl" path="res://Roma.cs" id="1_ahaee"]
 [ext_resource type="PackedScene" uid="uid://bl0iqoaklc617" path="res://control.tscn" id="2_fdhp4"]
+[ext_resource type="Texture2D" uid="uid://c4vna2nbyw04t" path="res://PNG/Dark/texture_08.png" id="2_n4ctf"]
 [ext_resource type="Script" uid="uid://c8asq1mc3x8ur" path="res://ThirdPersonShooterController.cs" id="3_pefnl"]
+[ext_resource type="Script" uid="uid://bdhmjkjprd3q6" path="res://CenterContainer.cs" id="4_v76xm"]
+[ext_resource type="PackedScene" uid="uid://duvi3bsujsvd5" path="res://projectile_launcher.tscn" id="6_ni8vk"]
+[ext_resource type="Script" uid="uid://ck8yma0dmwc5t" path="res://GrappleControl.cs" id="7_lrxb4"]
+[ext_resource type="PackedScene" uid="uid://cqqutp70j2fyc" path="res://rope.tscn" id="8_hp4f4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gaig4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahaee"]
-albedo_color = Color(0, 0, 0, 1)
+albedo_texture = ExtResource("2_n4ctf")
+uv1_triplanar = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_fdhp4"]
 material = SubResource("StandardMaterial3D_ahaee")
@@ -17,6 +23,64 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahaee"]
 material = SubResource("StandardMaterial3D_gaig4")
+
+[sub_resource type="Animation" id="Animation_6lfm0"]
+resource_name = "AimIn"
+length = 0.62
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraPivot/mainCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.62),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.40495, -3.31933), Vector3(-0.247887, 1.40495, -2.83595), Vector3(-0.582533, 1.40495, -2.26581), Vector3(-1.21464, 1.40495, -1.54695), Vector3(-1.21464, 1.40495, -1.54695)]
+}
+
+[sub_resource type="Animation" id="Animation_ehcoq"]
+resource_name = "AimOut"
+length = 0.62
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraPivot/mainCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.62),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.21854, 1.40495, -1.55328), Vector3(-0.91038, 1.40495, -2.02083), Vector3(-0.421579, 1.40495, -2.57339), Vector3(0.00346553, 1.40495, -3.21096), Vector3(0, 1.40495, -3.31933)]
+}
+
+[sub_resource type="Animation" id="Animation_lrxb4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraPivot/mainCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.21854, 1.40495, -1.55328)]
+}
+
+[sub_resource type="Animation" id="Animation_ni8vk"]
+resource_name = "CameraTransition1"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lrxb4"]
+_data = {
+&"AimIn": SubResource("Animation_6lfm0"),
+&"AimOut": SubResource("Animation_ehcoq"),
+&"CameraTransition1": SubResource("Animation_ni8vk"),
+&"RESET": SubResource("Animation_lrxb4")
+}
 
 [node name="Roma" type="CharacterBody3D"]
 script = ExtResource("1_ahaee")
@@ -35,14 +99,8 @@ mesh = SubResource("CapsuleMesh_ahaee")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-process_priority = 40
-transform = Transform3D(-1, 1.59872e-14, -8.74228e-08, -2.91435e-08, 0.942799, 0.333363, 8.24221e-08, 0.333363, -0.942799, 0, 1.40495, -3.31933)
-
-[node name="AimCamera3D" type="Camera3D" parent="CameraPivot"]
-process_priority = 60
-transform = Transform3D(-0.884402, 0.0661253, -0.462018, -1.48382e-08, 0.989913, 0.141679, 0.466726, 0.125301, -0.875481, -2.75537, 0.936057, -1.96641)
-fov = 52.7
+[node name="mainCamera" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(-1, 1.94247e-08, -1.42359e-07, -2.91435e-08, 0.942799, 0.333363, 1.40691e-07, 0.333363, -0.942799, -1.21854, 1.40495, -1.55328)
 
 [node name="wallCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0136021, -0.0117795)
@@ -50,8 +108,68 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.
 [node name="stillOnWallCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.496902, -0.0198795)
 
-[node name="ThirdPersonShooterController" type="Node" parent="." node_paths=PackedStringArray("aCamera", "bCamera", "player")]
+[node name="ThirdPersonShooterController" type="Node" parent="." node_paths=PackedStringArray("mainCamera", "player", "crossHairUI", "crosshair", "animation")]
 script = ExtResource("3_pefnl")
-aCamera = NodePath("../CameraPivot/AimCamera3D")
-bCamera = NodePath("../CameraPivot/Camera3D")
+mainCamera = NodePath("../CameraPivot/mainCamera")
 player = NodePath("..")
+crossHairUI = NodePath("../CrooHair/CenterContainer")
+crosshair = NodePath("../CrooHair")
+animation = NodePath("../AnimationPlayer")
+
+[node name="CrooHair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="CrooHair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_v76xm")
+
+[node name="Up" type="Line2D" parent="CrooHair/CenterContainer"]
+points = PackedVector2Array(0, -5, 0, -15)
+width = 2.0
+
+[node name="Down" type="Line2D" parent="CrooHair/CenterContainer"]
+points = PackedVector2Array(0, 5, 0, 15)
+width = 2.0
+
+[node name="Left" type="Line2D" parent="CrooHair/CenterContainer"]
+points = PackedVector2Array(-5, 0, -15, 0)
+width = 2.0
+
+[node name="Right" type="Line2D" parent="CrooHair/CenterContainer"]
+points = PackedVector2Array(5, 0, 15, 0)
+width = 2.0
+
+[node name="ProjectileLauncher" parent="." instance=ExtResource("6_ni8vk")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.09314)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lrxb4")
+}
+
+[node name="GrappleControl" type="Node" parent="." node_paths=PackedStringArray("ray", "player", "camera", "rope", "aimControl")]
+script = ExtResource("7_lrxb4")
+ray = NodePath("../RayCast3D")
+player = NodePath("..")
+camera = NodePath("../CameraPivot/mainCamera")
+rope = NodePath("../Rope")
+aimControl = NodePath("../ThirdPersonShooterController")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 1.42109e-14, 0, 1, -5.68434e-14, 0.3, 0)
+target_position = Vector3(0, 0, 50)
+
+[node name="Rope" parent="." instance=ExtResource("8_hp4f4")]
